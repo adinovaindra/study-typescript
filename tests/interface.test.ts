@@ -1,4 +1,5 @@
 import type { Employee, Manager } from "../src/employee.js";
+import type { Person } from "../src/person.js";
 import { sayHello } from "../src/say-hello.js";
 import type { Seller } from "../src/seller.js";
 
@@ -72,11 +73,6 @@ describe("Interface", function () {
   });
 
   it("should support function in interface", () => {
-    interface Person {
-      name: string;
-      sayHello(name: string): string;
-    }
-
     const person: Person = {
       name: "Adinova Indra Permana",
       sayHello(name: string): string {
@@ -110,4 +106,51 @@ describe("Interface", function () {
       name: "Dino Pati Jalal",
     });
   });
+
+  it("Should support type assertions", () => {
+    const person : any = {
+      name: 'Adinova',
+      age: 30
+    }
+
+    const newPerson: Person = person as Person
+    console.log(newPerson)
+  })
+
+  it('Should support function overloading', () => {
+    function callMe(value: string):string
+    function callMe(value: number):number
+    function callMe(value: any) {
+      if (typeof value === "string") {
+        return value.toUpperCase()
+      } else if (typeof value === "number") {
+        return value * 2
+      }
+    }
+
+    expect(callMe('michael')).toBe('MICHAEL')
+    expect(callMe(23)).toBe(46);
+  })
+
+  it("Should support function parameter", () => {
+    function sayHello(name:string, filter: (name:string) => string): string {
+      return `Hello ${filter(name)}`
+    }
+
+    function toUpper(name: string): string {
+      return name.toUpperCase()
+    }
+
+    expect(sayHello("Dino", toUpper)).toBe(`Hello DINO`)
+  })
+
+  it("Should support function parameter with anonymus style", () => {
+    function sayHello(name: string, filter: (value:string) => string): string {
+      return `Hello ${filter(name)}`
+    }
+
+    expect(sayHello('Dino', function (name:string): string {
+      return name.toUpperCase()
+    })).toBe(`Hello DINO`)
+  })
 });
