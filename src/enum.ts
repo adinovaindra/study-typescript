@@ -9,10 +9,3 @@ export type Customer = {
     name: string
     type: CustomerType
 }
-
-
-const customer: Customer = {
-    id: 1,
-    name: 'Adinova Indra',
-    type: CustomerType.Gold
-}

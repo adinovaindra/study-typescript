@@ -1,4 +1,5 @@
 import type { Employee, Manager } from "../src/employee.js";
+import type { Person } from "../src/person.js";
 import { sayHello } from "../src/say-hello.js";
 import type { Seller } from "../src/seller.js";
 
@@ -72,11 +73,6 @@ describe("Interface", function () {
   });
 
   it("should support function in interface", () => {
-    interface Person {
-      name: string;
-      sayHello(name: string): string;
-    }
-
     const person: Person = {
       name: "Adinova Indra Permana",
       sayHello(name: string): string {
@@ -109,5 +105,47 @@ describe("Interface", function () {
       id: "2398203",
       name: "Dino Pati Jalal",
     });
+  });
+
+  it("should support type assertion", () => {
+    const person: any = {
+      name: "Adinova",
+      age: 30,
+    };
+
+    const person2: Person = person as Person;
+  });
+
+  it("Should support default value", () => {
+    function sayHello(name: string = "Guest"): string {
+      return `Hello ${name}`;
+    }
+
+    expect(sayHello()).toBe(`Hello Guest`);
+    expect(sayHello("David")).toBe(`Hello David`);
+  });
+
+  it("Should support rest parameter", () => {
+    function sum(...values: number[]): number {
+      let total: number = 0;
+      for (const num of values) {
+        total += num;
+      }
+      return total;
+    }
+
+    expect(sum(1, 2, 3, 4, 5)).toBe(15);
+  });
+
+  it("should support optional parameter", () => {
+    function sayHello(firstname: string, lastname?: string): string {
+      if (!lastname) {
+        return `Hello ${firstname}`;
+      }
+      return `Hello ${firstname} ${lastname}`
+    }
+
+    expect(sayHello("Eko")).toBe("Hello Eko");
+    expect(sayHello("Eko", "Kurniawan")).toBe("Hello Eko Kurniawan");
   });
 });
