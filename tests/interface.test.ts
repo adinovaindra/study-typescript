@@ -148,4 +148,41 @@ describe("Interface", function () {
     expect(sayHello("Eko")).toBe("Hello Eko");
     expect(sayHello("Eko", "Kurniawan")).toBe("Hello Eko Kurniawan");
   });
+
+  it('Should support function overloading', () => {
+    function callMe(value: string):string
+    function callMe(value: number):number
+    function callMe(value: any) {
+      if (typeof value === "string") {
+        return value.toUpperCase()
+      } else if (typeof value === "number") {
+        return value * 2
+      }
+    }
+
+    expect(callMe('michael')).toBe('MICHAEL')
+    expect(callMe(23)).toBe(46);
+  })
+
+  it("Should support function parameter", () => {
+    function sayHello(name:string, filter: (name:string) => string): string {
+      return `Hello ${filter(name)}`
+    }
+
+    function toUpper(name: string): string {
+      return name.toUpperCase()
+    }
+
+    expect(sayHello("Dino", toUpper)).toBe(`Hello DINO`)
+  })
+
+  it("Should support function parameter with anonymus style", () => {
+    function sayHello(name: string, filter: (value:string) => string): string {
+      return `Hello ${filter(name)}`
+    }
+
+    expect(sayHello('Dino', function (name:string): string {
+      return name.toUpperCase()
+    })).toBe(`Hello DINO`)
+  })
 });
